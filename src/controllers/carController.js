@@ -13,7 +13,7 @@ class CarController {
 
     static async getAll(req, res) {
         try {
-            const cars = CarService.getAll()
+            const cars = await CarService.getAll()
             res.status(201).json(cars)
         } catch (error) {
             res.status(500).json({ error: error.message })

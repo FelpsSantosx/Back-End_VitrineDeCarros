@@ -22,7 +22,7 @@ class CarService {
 
     static async update(id, data) {
         try {
-            const car = await Car.findByIdAndUpdate(id, update, { new: true })
+            const car = await Car.findByIdAndUpdate(id, data, { new: true })
             if (!car) {
                 throw new Error("Carro não encontrado")
             }
