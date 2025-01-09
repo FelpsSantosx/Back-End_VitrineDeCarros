@@ -1,9 +1,9 @@
 const Car = require("../models/car")
 
 class CarService {
-    static async create(carData) {
+    static async create(carData, imagePath) {
         try {
-            const car = new Car(carData)
+            const car = new Car({...carData, imagemPrincipal:imagePath })
             await car.save()
             return car
         } catch (error) {
@@ -19,6 +19,18 @@ class CarService {
             throw new Error("Problemas ao buscar carros:" + error.message)
         }
     }
+
+   static async findCarById(id) {
+    try {
+        console.log(`Buscando carro pelo ID: ${id}`)
+        const car = await Car.findById(id)
+        console.log("Resultado da consulta:", car)
+        return car
+    } catch (error) {
+        console.error("Erro ao buscar carro:", error)
+        throw new Error("Problemas ao buscar detalhes do carro pela id:" + error.message)
+    }
+}
 
     static async update(id, data) {
         try {

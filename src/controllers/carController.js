@@ -1,10 +1,20 @@
 const CarService = require("../services/carService")
+const mongoose = require("mongoose")
 
 class CarController {
 
     static async create(req, res) {
         try {
-            const car = await CarService.create(req.body)
+            
+            console.log(req.file)
+
+            // if (!req.file) {
+            //     return res.status(400).json({ error: "Imagem principal é obrigatória!" });
+            // }
+            
+            const imagePath = `/uploads/${req.file.filename}`
+
+            const car = await CarService.create(req.body, imagePath)
             res.status(201).json(car)
         } catch (error) {
             res.status(500).json({ error: error.message })
@@ -20,8 +30,30 @@ class CarController {
         }
     }
 
+    static async getCarById(req, res) {
+        try {
+            const { id } = req.params
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "ID inválido" })
+            }
+
+            const car = await CarService.findCarById(id)
+
+            if (!car) {
+                return res.status(404).json({ message: "Carro não encontrado" })
+            }
+
+            return res.status(200).json(car)
+        } catch (error) {
+            console.error("Erro ao buscar o carro:", error)
+            return res.status(500).json({ message: "Erro no servidor", error: error.message })
+        }
+    }
+
+
     static async update(req, res) {
-        
+
         const { id } = req.params
         const updateData = req.body
 
