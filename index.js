@@ -3,20 +3,21 @@ require("dotenv").config()
 const express = require("express")
 const Databse = require("./src/config/db")
 const cors = require('cors')
-const path = require('path')
+const path = require("path")
+
 const app = express()
 
 app.use(express.json())
 
+app.use('/uploads', express.static(path.resolve(__dirname, 'uploads')))
+
 app.use(cors())
-
-app.use('/', require('./src/routes/carRoutes'));
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
     res.send("Ola, Express!")
 })
+
+app.use('/', require('./src/routes/carRoutes'))
 
 Databse.connect().then(() => {
 

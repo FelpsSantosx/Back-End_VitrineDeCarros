@@ -1,11 +1,13 @@
 const express = require("express")
 const CarController = require("../controllers/carController")
-const upload = require('../config/multerconfig')
-
+const upload = require("../config/multer")
 
 const router = express.Router()
 
-router.post('/cars', upload.single('imagemPrincipal'), CarController.create)
+router.post('/cars', upload.fields([
+    { name: 'imagemPrincipal', maxCount: 1 },
+    { name: 'galeria' }
+]), CarController.create)
 
 router.get('/cars', CarController.getAll)
 

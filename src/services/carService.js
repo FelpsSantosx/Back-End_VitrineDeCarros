@@ -1,10 +1,20 @@
 const Car = require("../models/car")
 
 class CarService {
-    static async create(carData, imagePath) {
+    static async create(data, files) {
         try {
-            const car = new Car({...carData, imagemPrincipal:imagePath })
-            await car.save()
+
+            const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || null
+            const galeria = files?.galeria?.map(file => file.filename) || null
+
+            console.log(imagemPrincipal, galeria);
+
+            const car = await Car.create({
+                ...data,
+                imagemPrincipal,
+                galeria,
+            })  
+
             return car
         } catch (error) {
             throw new Error("Problema ao salvar Carro: " + error.message)

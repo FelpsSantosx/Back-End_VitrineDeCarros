@@ -2,19 +2,15 @@ const CarService = require("../services/carService")
 const mongoose = require("mongoose")
 
 class CarController {
-
     static async create(req, res) {
         try {
             
-            console.log(req.file)
-
-            // if (!req.file) {
-            //     return res.status(400).json({ error: "Imagem principal é obrigatória!" });
-            // }
+            const data = req.body
+            const files = req.files
             
-            const imagePath = `/uploads/${req.file.filename}`
+            console.log(req.files)
 
-            const car = await CarService.create(req.body, imagePath)
+            const car = await CarService.create(data, files)
             res.status(201).json(car)
         } catch (error) {
             res.status(500).json({ error: error.message })
