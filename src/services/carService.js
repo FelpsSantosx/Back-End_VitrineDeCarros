@@ -4,8 +4,8 @@ class CarService {
     static async create(data, files) {
         try {
 
-            const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || null
-            const galeria = files?.galeria?.map(file => file.filename) || null
+            const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || "Deu Error"
+            const galeria = files?.galeria?.map(file => file.filename) || "Deu Error de novo"
 
             console.log(imagemPrincipal, galeria);
 
