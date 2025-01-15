@@ -3,7 +3,9 @@ const Car = require("../models/car")
 class CarService {
     static async create(data, files) {
         try {
+  
 
+            // Resolver Problema de imagem principal e galeria
             const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || "Deu Error"
             const galeria = files?.galeria?.map(file => file.filename) || "Deu Error de novo"
 
@@ -11,8 +13,8 @@ class CarService {
 
             const car = await Car.create({
                 ...data,
-                imagemPrincipal,
-                galeria,
+                imagemPrincipal: `/uploads/${imagemPrincipal}`,
+                galeria: galeria.map(filename => `/uploads/${filename}`),
             })  
 
             return car
