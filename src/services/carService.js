@@ -21,10 +21,23 @@ class CarService {
         }
     }
 
-    static async getAll() {
+    static async getAll(page, limit) {
         try {
+            const currentPage = parseInt(page)
+            const pageLimit = parseInt(limit)
+
             const cars = await Car.find()
-            return cars
+            .limit(pageLimit)
+            .skip((currentPage - 1) * pageLimit)
+            .exec()
+
+            const totalItems = await Car.countDocuments()
+
+            return {
+                cars,
+                totalPages: Math.ceil(totalItems / pageLimit),
+                currentPage,
+            }
         } catch (error) {
             throw new Error("Problemas ao buscar carros:" + error.message)
         }

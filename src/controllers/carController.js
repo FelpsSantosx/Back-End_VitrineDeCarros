@@ -4,10 +4,10 @@ const mongoose = require("mongoose")
 class CarController {
     static async create(req, res) {
         try {
-            
+
             const data = req.body
             const files = req.files
-            
+
             console.log(req.files)
 
             const car = await CarService.create(data, files)
@@ -19,7 +19,11 @@ class CarController {
 
     static async getAll(req, res) {
         try {
-            const cars = await CarService.getAll()
+
+            const { page = 1, limit = 9} = req.query
+
+            const cars = await CarService.getAll(page, limit)
+            
             res.status(201).json(cars)
         } catch (error) {
             res.status(500).json({ error: error.message })
