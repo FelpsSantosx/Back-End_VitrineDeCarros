@@ -8,7 +8,7 @@ class CarController {
             const data = req.body
             const files = req.files
 
-            console.log(req.files)
+            // console.log(req.files)
 
             const car = await CarService.create(data, files)
             res.status(201).json(car)
@@ -20,8 +20,7 @@ class CarController {
     static async getAll(req, res) {
         try {
 
-            const { page = 1, limit = 9} = req.query
-
+            const { page = 1, limit = 10} = req.query
             const cars = await CarService.getAll(page, limit)
             
             res.status(201).json(cars)
@@ -32,6 +31,7 @@ class CarController {
 
     static async getCarById(req, res) {
         try {
+            
             const { id } = req.params
 
             if (!mongoose.Types.ObjectId.isValid(id)) {

@@ -3,7 +3,7 @@ const Car = require("../models/car")
 class CarService {
     static async create(data, files) {
         try {
-  
+
             const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || "Deu Error"
             const galeria = files?.galeria?.map(file => file.filename) || "Deu Error de novo"
 
@@ -13,7 +13,7 @@ class CarService {
                 ...data,
                 imagemPrincipal: `/uploads/${imagemPrincipal}`,
                 galeria: galeria.map(filename => `/uploads/${filename}`),
-            })  
+            })
 
             return car
         } catch (error) {
@@ -23,37 +23,36 @@ class CarService {
 
     static async getAll(page, limit) {
         try {
-            const currentPage = parseInt(page)
-            const pageLimit = parseInt(limit)
+            const pageNumber = parseInt(page, 10) || 1
+            const pageLimit = parseInt(limit, 10) || 10
 
             const cars = await Car.find()
-            .limit(pageLimit)
-            .skip((currentPage - 1) * pageLimit)
-            .exec()
+                .skip((pageNumber - 1) * pageLimit)
+                .limit(pageLimit)
 
-            const totalItems = await Car.countDocuments()
+            const total = await Car.countDocuments()
 
             return {
                 cars,
-                totalPages: Math.ceil(totalItems / pageLimit),
-                currentPage,
+                totalPages: Math.ceil(total / pageLimit),
+                totaItems: total,
             }
         } catch (error) {
             throw new Error("Problemas ao buscar carros:" + error.message)
         }
     }
 
-   static async findCarById(id) {
-    try {
-        console.log(`Buscando carro pelo ID: ${id}`)
-        const car = await Car.findById(id)
-        console.log("Resultado da consulta:", car)
-        return car
-    } catch (error) {
-        console.error("Erro ao buscar carro:", error)
-        throw new Error("Problemas ao buscar detalhes do carro pela id:" + error.message)
+    static async findCarById(id) {
+        try {
+            console.log(`Buscando carro pelo ID: ${id}`)
+            const car = await Car.findById(id)
+            console.log("Resultado da consulta:", car)
+            return car
+        } catch (error) {
+            console.error("Erro ao buscar carro:", error)
+            throw new Error("Problemas ao buscar detalhes do carro pela id:" + error.message)
+        }
     }
-}
 
     static async update(id, data) {
         try {
