@@ -3,7 +3,6 @@ const Car = require("../models/car")
 class CarService {
     static async create(data, files) {
         try {
-
             const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || "Deu Error"
             const galeria = files?.galeria?.map(file => file.filename) || "Deu Error de novo"
 
@@ -78,6 +77,30 @@ class CarService {
             throw new Error("Não foi possivel excluir o carro: " + error.message)
         }
     }
-}
 
+    static async searchCarsFilter(query) {
+        try {
+            const { modelo, precoMin, precoMax, cambio, combustivel, ano, quilometragem, cor } = query
+
+            const filters = {}
+            if (modelo) filters.modelo = new RegExp(modelo, "i")
+            if (precoMin || precoMax) {
+                filters.preco = {}
+                if (precoMin) filters.preco.$gte = precoMin
+                if (precoMax) filters.preco.$lte = precoMax
+            }
+            if (cambio) filters.cambio = cambio
+            if (combustivel) filters.combustivel = combustivel
+            if (ano) filters.ano = ano
+            if (quilometragem) filters.quilometragem = quilometragem
+            if (cor) filters.cor = cor
+
+            return await Car.find(filters)
+
+        } catch (error) {
+            console.error('Erro no serviço de carros:', error);
+            throw new Error('Erro ao buscar carros com filtros');
+        }
+    }
+}
 module.exports = CarService

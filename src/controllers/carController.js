@@ -20,9 +20,9 @@ class CarController {
     static async getAll(req, res) {
         try {
 
-            const { page = 1, limit = 10} = req.query
+            const { page = 1, limit = 10 } = req.query
             const cars = await CarService.getAll(page, limit)
-            
+
             res.status(201).json(cars)
         } catch (error) {
             res.status(500).json({ error: error.message })
@@ -31,7 +31,7 @@ class CarController {
 
     static async getCarById(req, res) {
         try {
-            
+
             const { id } = req.params
 
             if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -76,6 +76,16 @@ class CarController {
             res.status(500).json({ error: error.message })
         }
     }
-}
 
+    static async searchCarsFilter(req, res) {
+        try {
+            const cars = await CarService.searchCarsFilter(req.query)
+            
+            res.status(200).json(cars)
+        } catch (error) {
+            console.error('Erro no controller:', error);
+            return res.status(500).json({ error: 'Erro ao buscar carros' });
+        }
+    }
+}
 module.exports = CarController

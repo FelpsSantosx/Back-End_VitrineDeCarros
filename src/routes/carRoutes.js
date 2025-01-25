@@ -17,5 +17,7 @@ router.put('/cars/:id', CarController.update)
 
 router.delete('/cars/:id', CarController.delete)
 
+router.get("/search", CarController.searchCarsFilter)
+
 
 module.exports = router
