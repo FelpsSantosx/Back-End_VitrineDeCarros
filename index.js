@@ -17,7 +17,14 @@ app.get('/', (req, res) => {
     res.send("Ola, Express!")
 })
 
-app.use('/', require('./src/routes/carRoutes'))
+// Importações de Rotas
+const carRoutes = require("./src/routes/carRoutes");
+const messageRoutes = require("./src/routes/messageRoutes"); // ✅ Importação da rota de mensagens
+
+// Definindo as rotas
+app.use("/", carRoutes);
+app.use("/messages", messageRoutes);
+
 
 Databse.connect().then(() => {
 

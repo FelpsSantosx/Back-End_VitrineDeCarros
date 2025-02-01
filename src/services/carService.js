@@ -80,26 +80,47 @@ class CarService {
 
     static async searchCarsFilter(query) {
         try {
-            const { modelo, precoMin, precoMax, cambio, combustivel, ano, quilometragem, cor } = query
+            const {
+                modelo,
+                precoMin,
+                precoMax,
+                cambio,
+                combustivel,
+                ano,
+                quilometragem,
+                cor,
+                page = 1,
+                limit = 10,
+            } = query;
 
-            const filters = {}
-            if (modelo) filters.modelo = new RegExp(modelo, "i")
+            const filters = {};
+            if (modelo) filters.modelo = new RegExp(modelo, "i");
             if (precoMin || precoMax) {
-                filters.preco = {}
-                if (precoMin) filters.preco.$gte = precoMin
-                if (precoMax) filters.preco.$lte = precoMax
+                filters.preco = {};
+                if (precoMin) filters.preco.$gte = parseFloat(precoMin);
+                if (precoMax) filters.preco.$lte = parseFloat(precoMax);
             }
-            if (cambio) filters.cambio = cambio
-            if (combustivel) filters.combustivel = combustivel
-            if (ano) filters.ano = ano
-            if (quilometragem) filters.quilometragem = quilometragem
-            if (cor) filters.cor = cor
+            if (cambio) filters.cambio = cambio;
+            if (combustivel) filters.combustivel = combustivel;
+            if (ano) filters.ano = parseInt(ano);
+            if (quilometragem) filters.quilometragem = parseInt(quilometragem);
+            if (cor) filters.cor = cor;
 
-            return await Car.find(filters)
+            // Paginação
+            const skip = (page - 1) * limit;
+            const totalCount = await Car.countDocuments(filters);
+            const cars = await Car.find(filters).skip(skip).limit(parseInt(limit));
+
+            return {
+                cars,
+                totalCount,
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(totalCount / limit),
+            };
 
         } catch (error) {
-            console.error('Erro no serviço de carros:', error);
-            throw new Error('Erro ao buscar carros com filtros');
+            console.error("Erro no serviço de carros:", error);
+            throw new Error("Erro ao buscar carros com filtros");
         }
     }
 }
