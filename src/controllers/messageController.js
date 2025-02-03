@@ -9,7 +9,7 @@ class MessageController {
             const savedMessage = await MessageService.saveMessage({ nome, email, telefone, mensagem, carro });
 
             // Gera o link para o WhatsApp
-            const linkWhatsApp = MessageService.generateWhatsAppLink({ telefone, nome, mensagem, carro });
+            const linkWhatsApp = await MessageService.generateWhatsAppLink({ nome, mensagem, carro });
 
             return res.status(201).json({
                 message: "Mensagem enviada com sucesso!",
