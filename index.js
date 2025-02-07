@@ -9,7 +9,7 @@ const app = express()
 
 app.use(express.json())
 
-app.use('/uploads', express.static(path.resolve(__dirname, 'uploads')))
+// app.use('/uploads', express.static(path.resolve(__dirname, 'uploads'))) // com Cloudinary não precisamos mais disso
 
 app.use(cors())
 

@@ -1,29 +1,18 @@
 const multer = require('multer')
-const path = require("path")
+const {CloudinaryStorage} = require('multer-storage-cloudinary')
+const cloudinary = require('./cloudinary')
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.resolve('uploads'))
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const fileExtension = path.extname(file.originalname)
-        cb(null, `${file.fieldname}-${uniqueSuffix}${fileExtension}`)
-    },
+// console.log("✅ Cloudinary carregado:", cloudinary)
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'carros',
+        format: async (req, file) => "jpeg", // ou "png", "jpg"
+        // transformation: [{ width: 800, height: 600, crop: 'limit' }]
+    }
 })
 
-const fileFilter = (req, file, cb) => {
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
-        if(allowedMimeTypes.includes(file.mimetype)) {
-            cb(null, true)
-        } else {
-            cb (new Error("Tipo de arquivo não suportado. Apenas imagens são permitidas."), false)
-        }
-}
-
-const upload = multer({
-    storage,
-    fileFilter,
-})
+const upload = multer({ storage })
 
 module.exports = upload

@@ -3,15 +3,15 @@ const Car = require("../models/car")
 class CarService {
     static async create(data, files) {
         try {
-            const imagemPrincipal = files?.imagemPrincipal?.[0]?.filename || "Deu Error"
-            const galeria = files?.galeria?.map(file => file.filename) || "Deu Error de novo"
+            const imagemPrincipal = files?.imagemPrincipal?.[0]?.path || "Deu Error"
+            const galeria = files?.galeria?.map(file => file.path) || []
 
-            console.log(imagemPrincipal, galeria);
+             console.log(imagemPrincipal, galeria)
 
             const car = await Car.create({
                 ...data,
-                imagemPrincipal: `/uploads/${imagemPrincipal}`,
-                galeria: galeria.map(filename => `/uploads/${filename}`),
+                imagemPrincipal,
+                galeria
             })
 
             return car
