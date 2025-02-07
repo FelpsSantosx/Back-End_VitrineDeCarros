@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
 })
 
 // Importações de Rotas
-const carRoutes = require("./src/routes/carRoutes");
-const messageRoutes = require("./src/routes/messageRoutes"); // ✅ Importação da rota de mensagens
+const carRoutes = require("./src/routes/carRoutes")
+const messageRoutes = require("./src/routes/messageRoutes") 
 
 // Definindo as rotas
-app.use("/", carRoutes);
-app.use("/messages", messageRoutes);
+app.use("/", carRoutes)
+app.use("/messages", messageRoutes)
 
 
 Databse.connect().then(() => {
