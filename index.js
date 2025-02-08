@@ -11,7 +11,9 @@ app.use(express.json())
 
 // app.use('/uploads', express.static(path.resolve(__dirname, 'uploads'))) // com Cloudinary não precisamos mais disso
 
-app.use(cors())
+app.use(cors({
+    origin: "https://topcar-online.netlify.app/"
+}))
 
 app.get('/', (req, res) => {
     res.send("Ola, Express!")
