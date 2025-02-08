@@ -12,7 +12,9 @@ app.use(express.json())
 // app.use('/uploads', express.static(path.resolve(__dirname, 'uploads'))) // com Cloudinary não precisamos mais disso
 
 app.use(cors({
-    origin: "https://topcar-online.netlify.app/"
+    origin: 'https://topcar-online.netlify.app', // Domínio do frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }))
 
 app.get('/', (req, res) => {
