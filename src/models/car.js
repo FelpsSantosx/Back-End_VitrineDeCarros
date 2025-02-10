@@ -10,6 +10,7 @@ const CarSchema = new mongoose.Schema({
   cor: { type: String },
   cambio: { type: String },
   cidade: { type: String },
+  fipe: { type: String },
   imagemPrincipal: { type: String },
   galeria: [{ type: String }],
 }, { timestamps: true });
