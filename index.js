@@ -3,7 +3,6 @@ require("dotenv").config()
 const express = require("express")
 const Databse = require("./src/config/db")
 const cors = require('cors')
-const path = require("path")
 
 const app = express()
 
@@ -12,7 +11,7 @@ app.use(express.json())
 // app.use('/uploads', express.static(path.resolve(__dirname, 'uploads'))) // com Cloudinary não precisamos mais disso
 
 app.use(cors({
-    origin: 'https://topcar-online.netlify.app', // Domínio do frontend
+    origin:[ 'https://topcar-online.netlify.app', 'http://localhost:5173' ], // Domínio do frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }))
