@@ -1,31 +1,11 @@
-const Message = require('../models/message')
-
 class MessageService {
-    static async validateMessageData({ nome, email, telefone, mensagem, carro }) {
+    static async validateMessageData({ nome, mensagem, carro }) {
         try {
-            if (!nome || !email || !telefone || !mensagem || !carro) {
-                throw new Error("Nome, email, telefone e mensagem são obrigatórios")
+            if (!nome || !mensagem || !carro) {
+                throw new Error("Nome e mensagem são obrigatórios")
             }
         } catch (error) {
             throw new Error("Erro ao validar mensagem: " + error.message)
-        }
-    }
-
-    static async saveMessage({ nome, email, telefone, mensagem, carro }) {
-        try {
-            this.validateMessageData({ nome, email, telefone, mensagem, carro })
-
-            const newMessage = new Message({
-                nome,
-                email,
-                telefone,
-                mensagem,
-                carro
-            })
-            await newMessage.save()
-            return newMessage
-        } catch (error) {
-            throw new Error("Erro ao salvar mensagem: " + error.message)
         }
     }
 
