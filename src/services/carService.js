@@ -6,7 +6,7 @@ class CarService {
             const imagemPrincipal = files?.imagemPrincipal?.[0]?.path || "Deu Error"
             const galeria = files?.galeria?.map(file => file.path) || []
 
-             console.log(imagemPrincipal, galeria)
+            console.log(imagemPrincipal, galeria)
 
             const car = await Car.create({
                 ...data,
@@ -62,7 +62,7 @@ class CarService {
             return car
         } catch (error) {
             throw new Error("Problema ao atualizar o carro selecionado: "
-                + error.message);
+                + error.message)
         }
     }
 
@@ -91,36 +91,36 @@ class CarService {
                 cor,
                 page = 1,
                 limit = 10,
-            } = query;
+            } = query
 
-            const filters = {};
-            if (modelo) filters.modelo = new RegExp(modelo, "i");
+            const filters = {}
+            if (modelo && modelo.trim() !== "") { filters.modelo = new RegExp(modelo, "i") }
             if (precoMin || precoMax) {
-                filters.preco = {};
-                if (precoMin) filters.preco.$gte = parseFloat(precoMin);
-                if (precoMax) filters.preco.$lte = parseFloat(precoMax);
+                filters.preco = {}
+                if (precoMin) filters.preco.$gte = parseFloat(precoMin)
+                if (precoMax) filters.preco.$lte = parseFloat(precoMax)
             }
-            if (cambio) filters.cambio = cambio;
-            if (combustivel) filters.combustivel = combustivel;
-            if (ano) filters.ano = parseInt(ano);
-            if (quilometragem) filters.quilometragem = parseInt(quilometragem);
-            if (cor) filters.cor = cor;
+            if (cambio) filters.cambio = cambio
+            if (combustivel) filters.combustivel = combustivel
+            if (ano) filters.ano = parseInt(ano)
+            if (quilometragem) filters.quilometragem = parseInt(quilometragem)
+            if (cor) filters.cor = cor
 
             // Paginação
-            const skip = (page - 1) * limit;
-            const totalCount = await Car.countDocuments(filters);
-            const cars = await Car.find(filters).skip(skip).limit(parseInt(limit));
+            const skip = (page - 1) * limit
+            const totalCount = await Car.countDocuments(filters)
+            const cars = await Car.find(filters).skip(skip).limit(parseInt(limit))
 
             return {
                 cars,
                 totalCount,
                 currentPage: parseInt(page),
                 totalPages: Math.ceil(totalCount / limit),
-            };
+            }
 
         } catch (error) {
-            console.error("Erro no serviço de carros:", error);
-            throw new Error("Erro ao buscar carros com filtros");
+            console.error("Erro no serviço de carros:", error)
+            throw new Error("Erro ao buscar carros com filtros")
         }
     }
 }
