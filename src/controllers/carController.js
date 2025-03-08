@@ -8,8 +8,6 @@ class CarController {
             const data = req.body
             const files = req.files
 
-            // console.log("📂 Arquivos recebidos:", files)
-
             const car = await CarService.create(data, files)
             res.status(201).json(car)
         } catch (error) {
