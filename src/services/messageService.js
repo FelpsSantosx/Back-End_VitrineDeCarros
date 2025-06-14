@@ -11,8 +11,9 @@ class MessageService {
 
     static async generateWhatsAppLink({ nome, mensagem, carro }) {
         try {
-
-            const numeroDoVendendor = ""
+            
+            // Simulação de número do vendedor    
+            const numeroDoVendendor = ""  
 
             const detalhesCarro = `
                 Modelo: ${carro.modelo}

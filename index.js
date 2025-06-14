@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 const origins =
-  process.env.NODE._ENV === "production"
+  process.env.NODE_ENV === "production"
     ? [process.env.PROD_URL]
     : [process.env.DEV_URL];
 
