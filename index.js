@@ -15,7 +15,7 @@ const origins =
 
 app.use(
   cors({
-    origin: origins,
+    origin: origins, // Altere para o domínio do seu frontend
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
