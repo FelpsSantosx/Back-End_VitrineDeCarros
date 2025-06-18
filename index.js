@@ -9,13 +9,13 @@ const app = express();
 app.use(express.json());
 
 const origins =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "development" // alterar para "production" quando for para em produção
     ? [process.env.PROD_URL]
     : [process.env.DEV_URL];
 
 app.use(
   cors({
-    origin: origins, // Altere para o domínio do seu frontend
+    origin: origins, 
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
